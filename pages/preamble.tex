@@ -1,0 +1,250 @@
+%! @file preamble.tex
+%! @author Stanislav Mamontov, stanislav.mamontov <at> gmail.com
+%! @date 7 Jan 2013
+%! @brief LaTeX document preamble.
+
+
+\documentclass[12pt, oneside, a4paper]{report}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[svgnames]{xcolor}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{eso-pic}
+\usepackage{tocloft}
+\usepackage{metalogo}
+\usepackage[titletoc]{appendix}
+\usepackage{background}
+\usepackage{etoolbox}
+\usepackage{array}
+
+\usepackage[												% setup metadata for PDF
+    pdfauthor={\docauthor, \docauthormail},
+    pdftitle={\doctitle},
+    hidelinks,
+    pdfstartview={XYZ null null 1.00}
+]{hyperref}
+
+
+\providecommand{\resdir}{res}								% resource directory. Should be defined in main tex-file.
+
+
+
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+\setmainfont[Ligatures=TeX]{Linux Libertine O}
+\setsansfont[Scale=0.8]{Liberation Sans}
+\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+
+\geometry{													% setup page margins
+    a4paper,
+    top=25mm,
+    left=30mm,
+    bottom=25mm,
+    right=15mm
+}
+          
+\parindent=0.5in											% set first line indent
+
+%\renewcommand*\thesection{\arabic{section}}				% for documents without chapters only
+
+\graphicspath{{\resdir /}}                        			% for Inkscape pdf+tex output feature
+
+\titlespacing*{\chapter}{0mm}{10mm}{5mm}
+\titlespacing*{\section}{0mm}{10mm}{5mm}
+\titlespacing*{\subsection}{5mm}{10mm}{5mm}
+\titlespacing*{\subsubsection}{10mm}{10mm}{5mm}
+
+\titleformat{\chapter}{\normalfontlatin\sffamily\bfseries\LARGE}{\chaptertitlename\hspace*{0.5em}\thechapter}{0.5em}{}
+\titleformat{\section}{\normalfontlatin\sffamily\bfseries\Large}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalfontlatin\sffamily\bfseries\large}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalfontlatin\sffamily\bfseries}{\thesubsubsection}{0.5em}{}
+
+\gappto\captionsrussian{\renewcommand{\chaptername}{\hspace*{-0.5em}}}
+\gappto\captionsrussian{\renewcommand{\contentsname}{\vspace*{-20mm}\centerline{Содержание}}}
+\gappto\captionsrussian{\renewcommand{\listfigurename}{Список рисунков}}
+\gappto\captionsrussian{\renewcommand{\listtablename}{Список таблиц}}
+\gappto\captionsrussian{\renewcommand{\abstractname}{Аннотация}}
+\gappto\captionsrussian{\renewcommand{\bibname}{Литература}}
+\gappto\captionsrussian{\renewcommand{\indexname}{Предметный указатель}}
+\gappto\captionsrussian{\renewcommand{\figurename}{Рисунок}}
+\gappto\captionsrussian{\renewcommand{\tablename}{Таблица}}
+\gappto\captionsrussian{\renewcommand{\partname}{Часть}}
+\gappto\captionsrussian{\renewcommand{\appendixname}{Приложение}}
+\gappto\captionsrussian{\renewcommand{\lstlistingname}{Листинг}}
+
+\DeclareCaptionLabelSeparator{emdash}{~--- }
+\captionsetup{labelsep=emdash}
+
+\captionsetup[lstlisting]{									% setup captions for code listings
+    singlelinecheck=false,
+    justification=raggedright,
+    format=hang,
+    margin=10mm
+}
+
+\captionsetup[longtable]{									% setup captions for tables
+	singlelinecheck=false,
+    justification=justified,
+    format=hang,
+    margin=20mm
+}
+
+\lstset{													% code listings setup
+    basicstyle=\small\ttfamily\itshape,						% the size/style of the fonts that are used for the code
+    numbers=none,											% where to put the line-numbers
+    numberstyle=\small\ttfamily\em,							% the style that is used for the line-numbers
+    stepnumber=1,											% the step between two line-numbers
+    numbersep=10mm,											% how far the line-numbers are from the code
+    frame=tb,												% add top and bottom lines
+    backgroundcolor=\color{white},							% choose the background color. You must add \usepackage{color}
+    showspaces=false,										% show spaces adding particular underscores
+    showstringspaces=false,									% underline spaces within strings
+    showtabs=false,											% show tabs within strings adding particular underscores
+    rulecolor=\color{black},								% if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments)
+    tabsize=2,												% sets default tabsize to 2 spaces
+    captionpos=t,											% sets the caption-position to top
+    breaklines=true,										% sets automatic line breaking
+    breakatwhitespace=false,								% sets if automatic breaks should only happen at whitespace
+    keywordstyle=\small\ttfamily\itshape,					% keyword style
+    commentstyle=\small\ttfamily\itshape,					% comment style
+    escapeinside={\%*}{*)},									% allow to add LaTeX within your code
+    morekeywords={*,...},									% allow to add more keywords to the set
+    deletekeywords={...}									% allow to delete keywords from the given language    
+}
+
+
+\fancypagestyle{plain}{										% header and footer setup
+    \fancyhf{}
+    %\fancyhead[R]{{\normalfontlatin \thepage}}				% uncomment for page numbers in header!
+    %\fancyfoot[R]{{\normalfontlatin Sample text}}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+\renewcommand{\cfttoctitlefont}{\normalfontlatin\sffamily\bfseries\LARGE}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+
+
+\backgroundsetup{											% background for ESKD-like page frames
+	pages=all,
+	color=black,
+	angle=0,
+	scale=1,
+	opacity=1,
+	hshift=0,
+	vshift=0,
+	position=current page.south west,
+	contents=,
+}
+
+
+%\newcommand{\resetappindexing}{
+%\makeatletter
+%\renewcommand{\appendix}{\par
+%\if@chapter@pp
+%\setcounter{chapter}{0}%
+%\setcounter{section}{0}%
+%\gdef\@chapapp{\appendixname}%
+%\gdef\thechapter{\@Alph\c@chapter}
+%\else
+%\setcounter{section}{0}%
+%\setcounter{subsection}{0}%
+%\gdef\thesection{\@Alph\c@section}
+%\fi
+%}
+%\makeatother
+%}
+
+\makeatletter												% ! makealteller - dirty workarounds and other hacks here
+
+	\def\@biblabel#1{#1. } 									% define indices format for bibitems
+
+	\renewcommand{\@resets@pp}{\par							% redefine appendix indexing style to use cyrillic letters
+		\@ppsavesec
+		\stepcounter{@pps}
+		\setcounter{section}{0}
+		
+		\titleformat{\chapter}[display]
+				{\normalfontlatin\sffamily\bfseries\Large\filcenter}
+				{\chaptertitlename\hspace*{0.5em}\thechapter}{0.5em}{}		
+		
+		\if@chapter@pp
+			\setcounter{chapter}{0}
+			\renewcommand\@chapapp{\appendixname}
+			\gdef\thechapter{\Asbuk{chapter}}
+		\else
+			\setcounter{subsection}{0}
+			\gdef\thechapter{\Asbuk{section}}
+		\fi
+		
+		\if@pphyper
+			\if@chapter@pp
+				\renewcommand{\theHchapter}{\theH@pps.\Asbuk{chapter}}
+			\else
+				\renewcommand{\theHsection}{\theH@pps.\Asbuk{section}}
+			\fi
+			
+			\def\Hy@chapapp{\appendixname}%
+		\fi
+	\restoreapp
+	}
+	
+	\renewenvironment{titlepage}{							% suppress resetting the page counter after titlepage
+		\if@twocolumn
+			\@restonecoltrue\onecolumn
+		\else
+			\@restonecolfalse\newpage
+		\fi
+		\thispagestyle{empty}
+		\setcounter{page}\@ne
+	}{
+		\if@restonecol
+			\twocolumn
+		\else
+			\newpage
+		\fi
+		\if@twoside
+			%
+		\else
+			%\setcounter{page}\@ne
+		\fi
+	}
+			
+\makeatother
+
+
+\IfFileExists{\resdir /overlay.pdf}{\def\overlaypass{}}{}	% make document with the PDF overlay is exists
+\ifdefined\overlaypass
+\newcounter{overlaypage}
+\setcounter{overlaypage}{1}
+\AddToShipoutPicture{\AtPageLowerLeft{\includegraphics[page=\arabic{overlaypage}]
+{\resdir /overlay.pdf}\stepcounter{overlaypage}}}
+\fi
+
+
+
+\newcommand{\longtablehead}[2]{								% helper command for creating longtables  
+	#2
+	\endfirsthead
+
+	\multicolumn{#1}{l}{\qquad \tablename\ \thetable{} (продолжение)} \\  
+	#2
+	\endhead
+}
+
+
+\pagestyle{plain}
