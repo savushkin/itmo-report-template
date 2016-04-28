@@ -18,6 +18,27 @@
 
 \input{pages/titlepage}
 
+\newgeometry{
+    a4paper,
+    top=25mm,
+    left=30mm,
+    bottom=55mm,
+    right=15mm
+}
+
+{
+	\SetBgContents{\gostframeformII}
+	\BgMaterial
+}
+
+\NoBgThispage
+
+\SetBgContents{\gostframeformIIa}
+
+\tableofcontents
+\restoregeometry
+\newpage
+
 % content
 
 \end{document}

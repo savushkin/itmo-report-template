@@ -17,6 +17,77 @@
 
 \input{../../template/pages/titlepage}
 
-Курсовая по Орг. ЭВМ
+\chapter{Команды представленные в варианте}
+
+\begin{enumerate}
+\item orl a, @rj \\
+Ассемблер: 	ORL A,@Ri ; где i=0,1 \\
+Код: 		0 1 0 0 0 1 1 i \\
+Время: 		1 цикл \\
+Алгоритм: 	(A) : =(A) OR ((Ri)) \\
+Пример: 			;(A)=52H,  (R0)=6DH, (ОЗУ [6D])=49H \\
+		ORL A, @R0	;(A)=5BH, (ОЗУ [6D])=49H \\
+
+\item orl a, ad \\
+Ассемблер: 	ORL A,<direct> \\
+Код: 		0 1 0 0 0 1 0 1 direct address \\
+Время: 		1 цикл \\
+Алгоритм: 	(A) : =(A) OR (direct) \\
+Пример: 			;(A)=84H, (PSW)=C2H \\
+		ORL A, PSW	;(A)=C6H, (PSW)=C2H \\
+
+\item da a \\
+Ассемблер: 	DA A \\
+Код: 		1 1 0 1 0 1 0 0 \\
+Время: 		1 цикл \\
+Алгоритм: 	если ((A[3-0])>9 или (AC)=1), то A[3-0]:=A[3-0]+6 \\
+		    если ((A[7-4])>9 или (С)=1), то А[7-4]:=A[7-4]+6 \\
+Пример: 	a) 		;(A)=56H, (R3)=67H, (C)=1 \\
+		ADDC A, R3 \\
+		DA A		;(A)=23H, (R3)=67H, (C)=1 \\
+		b) 		;(A)=30H, (C)=0 \\
+		ADD A, \#99H \\
+		DA A		;(A)=29, (C)=1 \\
+
+\item mov <direct>, <direct> \\
+Ассемблер: 	MOV <direct>, <direct> \\
+Код:    1 0 0 0 0 1 0 1 direct address direct address \\
+Время: 	2 циклa \\
+Алгоритм: 	(direct) :=(direct) \\
+Пример:             ;(ОЗУ[45])=33H, (ОЗУ[48])=0DEH \\
+        MOV 48H,45H ;(ОЗУ[45])=33H, (ОЗУ[45])=33H \\
+
+\item mov <direct>, @Ri \\
+Ассемблер: 	MOV <direct>,@Ri ; где i=0,1 \\
+Код:    1 0 0 0 0 1 1 i direct address \\
+Время: 	2 циклa \\
+Алгоритм: 	(direct) :=((Ri)) \\
+Пример: 	        ;(R1)=49H, (ОЗУ[49])=0E3H \\
+        MOV 51H,@R1 ;(ОЗУ[51])=0E3H, (ОЗУ[49])=0E3H \\
+
+
+\item cjne @rj, \#d, rel \\
+Ассемблер: 	CJNE @Ri, \#data, <метка>; где i=0,1 \\
+Код: 		1 01 1 1 0 1 1 i	\#data8	rel8 \\
+Время:		2 циклa \\
+Алгоритм: 	(PC) :=(PC)+3, \\
+		если \#data <((Ri)), то (PC)+<rel8>, C:=0 \\
+		если \#data8>((Ri)), то (PC)+<rel8>, C:=1 \\
+Пример: 			;(R0)=41H, (C)=1, (ОЗУ[41])=57H \\
+		CJNE @R0, \#29H, MT6 \\
+		… \\
+		MT6: DEC R0	;(ОЗУ[41])=57H, (C)=0 \\
+				;(PC):=(PC)+3+(rel8) \\
+\end{enumerate}
+
+\chapter{Структурная схема ЭВМ}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{res/shema.png}
+\caption{Структурная схема}
+\end{figure}
+
+
+\chapter{Микропрограммы реализующие выполнение команд и их тестирование}
 
 \end{document}
